@@ -63,6 +63,5 @@ g_log_file_path = config['LOG_GENERATOR']['log_file']
 g_request_by_second = config['LOG_GENERATOR']['request_by_second']
 g_request_by_second = 1 / int(g_request_by_second)
 
-with open(g_log_file_path, 'w') as c_file:
-    g_log_file = open(g_log_file_path, 'w')
-    periodic_generator()
+g_log_file = open(g_log_file_path, 'w') #warning file not close
+periodic_generator()

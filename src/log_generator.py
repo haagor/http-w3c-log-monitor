@@ -1,7 +1,9 @@
+import configparser
+import threading
 from datetime import datetime
 from random import choice, randint, uniform
 from string import ascii_lowercase
-from time import strftime, gmtime
+from time import strftime, gmtime, ctime
 
 
 def generate_line():
@@ -22,8 +24,6 @@ def generate_line():
            + 'HTTP/1.1"' + ' ' \
         + l_http_status + ' ' \
            + l_reponse_bytes + '\n'
-    print(l_res_line)
-
     return l_res_line
 
 def generate_word(p_length):
@@ -47,19 +47,22 @@ def generate_sub_url():
     l_sub_url += choice(['.php', '.html', ''])
     return l_sub_url
 
-try:
-    g_log_file = open("../var/log/access.log", 'w')
-except IOError:
-    print('Unable to open the file for writing')
-
-while True:
-    l_lines_in_batch = 0
+def periodic_generator():
     try:
         g_log_file.write(generate_line())
-        l_lines_in_batch += 1
-        if l_lines_in_batch % 100 == 0:
-            g_log_file.flush()
+        g_log_file.flush()
     except ValueError as e:
         print(e)
         g_log_file.close()
-g_log_file.close()
+    threading.Timer(g_request_by_second, periodic_generator).start()
+
+
+config = configparser.ConfigParser()
+config.read('../config.ini')
+g_log_file_path = config['LOG_GENERATOR']['log_file']
+g_request_by_second = config['LOG_GENERATOR']['request_by_second']
+g_request_by_second = 1 / int(g_request_by_second)
+
+with open(g_log_file_path, 'w') as c_file:
+    g_log_file = open(g_log_file_path, 'w')
+    periodic_generator()

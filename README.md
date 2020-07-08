@@ -19,6 +19,14 @@ For execute the tests you can run `python3 -m unittest tests/test_log_reader.py`
 
 ## Details
 
+### Naming convention
+My naming convention that I use is, if we take the variable "hello" for example :
+
+* `g_hello` global variable
+* `l_hello` local variable
+* `c_hello` loop variable
+* `p_hello` parameter
+
 ### Log generator
 I didn't wanted to spend too much time on the log generator. For me it's necessary for the the POC, but this code don't have to persist. That's why I choose to don't write unit test.
 The error handling isn't present.
@@ -38,9 +46,14 @@ A good evolv here could be to replace Python queue by a similar tool like Kafka.
 
 ### Next steps
 
-* to Choose beetween kafka, ES or MongoDB to replace the Python queue, and to separate services in log handler
+* to choose beetween kafka, ES or MongoDB to replace the Python queue, and to separate services in log handler
 * Initially, I didn't wanted to start this projet with object programmation, but at this point structure become more and more necessary for continue to evolve
 * To implement more unit test and integration test
 * To implement error handling
 * In this use case it's often important to customize metrics and alerting. For now the code doesn't facilitate that and it could
 * Most important, play alert sound for each alert rise
+
+
+## Authors
+
+* **Paris Simon** 

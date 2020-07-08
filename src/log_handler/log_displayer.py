@@ -14,8 +14,8 @@ def display_log(p_queue):
         if l_time_delta >= g_display_interval:
             l_display = parse_queue_line(p_queue)
             if 'section' in l_display.keys():
-                l_display_string = '{time:%X} - Top section during the last {display_interval} seconds is: {section}' \
-                                '\n\tSection hits: {hits} \n\tPercentage of the whole traffic: {percentage}%' \
+                l_display_string = '{time:%X} - Top section since {display_interval} seconds : {section}' \
+                                '\n\tSection hits: {hits} \n\tPercentage of traffic: {percentage}%' \
                                 '\n\tTotal hits: {total_hits}'.format(**l_display)
             else:
                 l_display_string = '{time:%X} - ¯\\_(ツ)_/¯ No traffic since ' \

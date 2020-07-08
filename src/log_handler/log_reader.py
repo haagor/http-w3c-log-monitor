@@ -4,7 +4,7 @@ from datetime import datetime
 import queue
 
 
-def read_file(p_file, p_queue):
+def read_file(p_file, p_queue, p_queue_metric):
     with open(p_file, 'r') as c_file:
         while True:
             l_line = c_file.readline()
@@ -13,7 +13,7 @@ def read_file(p_file, p_queue):
             else:
                 l_parsed_line = parse_log_line(l_line)
                 p_queue.put(l_parsed_line)
-                #self.input_traffic_queue.put(parsed_line['datetime'])
+                p_queue_metric.put(l_parsed_line['datetime'])
 
 
 def parse_log_line(p_line):

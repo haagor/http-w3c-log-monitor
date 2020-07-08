@@ -1,19 +1,18 @@
 import configparser
 import re
 from datetime import datetime
+import queue
 
 
-def read_file(p_file):
+def read_file(p_file, p_queue):
     with open(p_file, 'r') as c_file:
         while True:
             l_line = c_file.readline()
             if not l_line:
                 continue
             else:
-                print(l_line)
                 l_parsed_line = parse_log_line(l_line)
-                print(l_parsed_line)
-                #self.input_queue.put(parsed_line)
+                p_queue.put(l_parsed_line)
                 #self.input_traffic_queue.put(parsed_line['datetime'])
 
 
@@ -39,9 +38,3 @@ def get_section(p_request):
     l_section = l_section[1].split('/')
     l_res = '/'.join(l_section[0:4])
     return l_res
-
-if __name__ == '__main__':
-    config = configparser.ConfigParser()
-    config.read('/home/haag/workspace/http-w3c-log-monitor/config.ini')
-    g_log_file_path = config['READER']['log_file']
-    read_file(g_log_file_path)

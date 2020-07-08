@@ -57,10 +57,10 @@ def periodic_generator(p_file):
     threading.Timer(g_request_by_second, periodic_generator, [p_file]).start()
 
 if __name__ == '__main__':
-    config = configparser.ConfigParser()
-    config.read('/home/haag/workspace/http-w3c-log-monitor/config.ini')
-    g_log_file_path = config['LOG_GENERATOR']['log_file']
-    g_request_by_second = config['LOG_GENERATOR']['request_by_second']
+    l_config = configparser.ConfigParser()
+    l_config.read('/home/haag/workspace/http-w3c-log-monitor/config.ini')
+    g_log_file_path = l_config['LOG_GENERATOR']['log_file']
+    g_request_by_second = l_config['LOG_GENERATOR']['request_by_second']
     g_request_by_second = 1 / int(g_request_by_second)
 
     g_log_file = open(g_log_file_path, 'w') #warning file not close

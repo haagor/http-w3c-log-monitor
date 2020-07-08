@@ -1,5 +1,5 @@
 import unittest
-from src import log_reader
+from src.log_handler import log_reader
 from datetime import datetime
 
 class TestStringMethods(unittest.TestCase):

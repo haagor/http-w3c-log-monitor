@@ -29,9 +29,10 @@ def check_alert(p_request_threshold_by_second):
     l_request_threshold = float(p_request_threshold_by_second)
 
     while True:
-        if len(g_traffic) / g_alert_interval <= l_request_threshold and g_alert_raised:
-            print(datetime.now().strftime('%H:%M:%S') + ' - ALERT RECOVER traffic too high')
+        l_hits = len(g_traffic)
+        if l_hits / g_alert_interval <= l_request_threshold and g_alert_raised:
+            print('RECOVERED High traffic generated an alert - hits = ' + str(l_hits) + ' , triggered at ' + datetime.now().strftime('%H:%M:%S'))
             g_alert_raised = False
-        if len(g_traffic) / g_alert_interval > l_request_threshold and not g_alert_raised:
-            print(datetime.now().strftime('%H:%M:%S') + ' - ALERT traffic too high')
+        if l_hits / g_alert_interval > l_request_threshold and not g_alert_raised:
+            print('High traffic alert - hits = ' + str(l_hits) + ' , triggered at ' + datetime.now().strftime('%H:%M:%S'))
             g_alert_raised = True

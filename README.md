@@ -39,7 +39,7 @@ The package `log handler` contains the main part of the project. You have :
 - An information displayer relative to the log
 - An alerter
 
-![N|Solid](https://raw.githubusercontent.com/haagor/http-w3c-log-monitor/master/img/projectStructure.png)
+![N|Solid](https://raw.githubusercontent.com/haagor/http-w3c-log-monitor/master/img/projectStructur.png)
 
 The log reader provide the parsed log, but also metrics. It provides these through two differents queues. It's a good point to isolate logs and metrics in order to facilitate the maintenance and code evolve.
 A good evolv here could be to replace Python queue by a similar tool like Kafka. It will be more easier to isolate responsibility of log reader, and the other logic based on it. We can also use ElasticSearch to provide the data to these services. The main point here is to separate responsibilities and create different services to handle it. And use dedicated tools to be more performante. 

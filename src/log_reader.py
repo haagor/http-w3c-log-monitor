@@ -1,5 +1,6 @@
 import configparser
-from os import SEEK_END
+import re
+from datetime import datetime
 
 
 def read_file(p_file):
@@ -9,16 +10,38 @@ def read_file(p_file):
             if not l_line:
                 continue
             else:
-                try:
-                    print(l_line)
-                    #parsed_line = self.parse_log_line(l_line)
-                    #self.input_queue.put(parsed_line)
-                    #self.input_traffic_queue.put(parsed_line['datetime'])
-                except LineFormatError:
-                    break
+                print(l_line)
+                l_parsed_line = parse_log_line(l_line)
+                print(l_parsed_line)
+                #self.input_queue.put(parsed_line)
+                #self.input_traffic_queue.put(parsed_line['datetime'])
 
 
-config = configparser.ConfigParser()
-config.read('../config.ini')
-g_log_file_path = config['READER']['log_file']
-read_file(g_log_file_path)
+def parse_log_line(p_line):
+    l_pattern = re.compile(
+        r'^(?P<remote_host>\S*) (?P<user_identity>\S*) (?P<user_name>\S*) \[(?P<datetime>.*?)\]'
+        r' \"(?P<request>.*)\" (?P<status_code>\d*) (?P<response_size>\d*)$'
+    )
+    l_matching_pattern = l_pattern.match(p_line)
+    l_formatted_line = l_matching_pattern.groupdict()
+    l_formatted_line['response_size'] = int(l_formatted_line['response_size'])
+    l_formatted_line['status_code'] = int(l_formatted_line['status_code'])
+    l_formatted_line['section'] = get_section(l_formatted_line['request'])
+    l_formatted_line['datetime'] = datetime.strptime(l_formatted_line['datetime'][0:20], '%d/%b/%Y:%X')
+    return l_formatted_line
+
+def get_section(p_request):
+    l_section = p_request.split(' ')
+
+    if l_section[1] == '/':
+        return '/'
+
+    l_section = l_section[1].split('/')
+    l_res = '/'.join(l_section[0:4])
+    return l_res
+
+if __name__ == '__main__':
+    config = configparser.ConfigParser()
+    config.read('/home/haag/workspace/http-w3c-log-monitor/config.ini')
+    g_log_file_path = config['READER']['log_file']
+    read_file(g_log_file_path)

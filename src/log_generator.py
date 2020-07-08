@@ -47,21 +47,21 @@ def generate_sub_url():
     l_sub_url += choice(['.php', '.html', ''])
     return l_sub_url
 
-def periodic_generator():
+def periodic_generator(p_file):
     try:
-        g_log_file.write(generate_line())
-        g_log_file.flush()
+        p_file.write(generate_line())
+        p_file.flush()
     except ValueError as e:
         print(e)
-        g_log_file.close()
-    threading.Timer(g_request_by_second, periodic_generator).start()
+        p_file.close()
+    threading.Timer(g_request_by_second, periodic_generator, [p_file]).start()
 
+if __name__ == '__main__':
+    config = configparser.ConfigParser()
+    config.read('/home/haag/workspace/http-w3c-log-monitor/config.ini')
+    g_log_file_path = config['LOG_GENERATOR']['log_file']
+    g_request_by_second = config['LOG_GENERATOR']['request_by_second']
+    g_request_by_second = 1 / int(g_request_by_second)
 
-config = configparser.ConfigParser()
-config.read('../config.ini')
-g_log_file_path = config['LOG_GENERATOR']['log_file']
-g_request_by_second = config['LOG_GENERATOR']['request_by_second']
-g_request_by_second = 1 / int(g_request_by_second)
-
-g_log_file = open(g_log_file_path, 'w') #warning file not close
-periodic_generator()
+    g_log_file = open(g_log_file_path, 'w') #warning file not close
+    periodic_generator(g_log_file)

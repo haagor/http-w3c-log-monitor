@@ -64,7 +64,7 @@ if __name__ == '__main__':
         g_request_by_second = l_config['LOG_GENERATOR']['request_by_second']
         g_request_by_second = 1 / int(g_request_by_second)
 
-        g_log_file = open(g_log_file_path, 'w') #warning file not close
+        g_log_file = open(g_log_file_path, 'w')
         periodic_generator(g_log_file)
     except KeyboardInterrupt:
         g_log_file.close()

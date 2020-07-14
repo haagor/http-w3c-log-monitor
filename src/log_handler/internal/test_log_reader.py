@@ -1,21 +1,24 @@
 import unittest
-from src.log_handler import log_reader
 from datetime import datetime
+
+from parse_log import parse_log_line
+from parse_log import get_section
+
 
 class TestStringMethods(unittest.TestCase):
 
 	def test_get_section(self):
-		section = log_reader.get_section('GET http://my.site.com/pages/ HTTP/1.1')
+		section = get_section('GET http://my.site.com/pages/ HTTP/1.1')
 		self.assertEqual(section, 'http://my.site.com/pages')
 
-		section = log_reader.get_section('GET http://my.site.com/pages/jdhaddjovy/nkjtp/fyvinleuqr/miymjekgfn HTTP/1.1')
+		section = get_section('GET http://my.site.com/pages/jdhaddjovy/nkjtp/fyvinleuqr/miymjekgfn HTTP/1.1')
 		self.assertEqual(section, 'http://my.site.com/pages')
 
-		section = log_reader.get_section('GET / HTTP/1.1')
+		section = get_section('GET / HTTP/1.1')
 		self.assertEqual(section, '/')
 
 	def test_parse_log_line(self):
-		parsed_line = log_reader.parse_log_line(
+		parsed_line = parse_log_line(
 			'hostname zwkivs ojsbrx [08/Jul/2020:08:10:30 +0000] "GET http://my.site.com/home/ HTTP/1.1" 600 1375')
 		expected_parsed_line = {
 		'remote_host': 'hostname',
@@ -29,7 +32,7 @@ class TestStringMethods(unittest.TestCase):
 		}
 		self.assertDictEqual(parsed_line, expected_parsed_line)
 
-		parsed_line = log_reader.parse_log_line(
+		parsed_line = parse_log_line(
 			'hostname pttmsb scibil [08/Jul/2020:08:10:29 +0000] "HEAD / HTTP/1.1" 300 1002')
 		expected_parsed_line = {
 		'remote_host': 'hostname',
@@ -43,7 +46,7 @@ class TestStringMethods(unittest.TestCase):
 		}
 		self.assertDictEqual(parsed_line, expected_parsed_line)
 
-		parsed_line = log_reader.parse_log_line(
+		parsed_line = parse_log_line(
 			'hostname pttmsb scibil [08/Jul/2020:08:10:29 +0000] "HEAD / HTTP/1.1" 300 1002')
 		expected_parsed_line = {
 		'remote_host': 'hostname',

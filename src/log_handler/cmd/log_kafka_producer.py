@@ -9,9 +9,9 @@ def read_file(p_file):
             if not l_line:
                 continue
             else:
-                producer(l_line)
+                produce_log(l_line)
 
-def producer(p_line):
+def produce_log(p_line):
     g_producer.send(g_logs_queue, bytes(p_line.strip(), 'utf-8')) #there is a chance to send \n in the line
 
 

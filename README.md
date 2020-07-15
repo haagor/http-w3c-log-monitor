@@ -69,6 +69,11 @@ In this design we have 5 independantes services. It's a good start to handle sca
 * In this use case it's often important to customize metrics and alerting. For now the code doesn't facilitate that and it could
 * Most important, play alert sound for each alert rise
 
+---
+
+![N|Solid](https://raw.githubusercontent.com/haagor/http-w3c-log-monitor/master/img/archiDraft1.png)
+
+![N|Solid](https://raw.githubusercontent.com/haagor/http-w3c-log-monitor/master/img/archiDraft2.png)
 
 ## Authors
 
